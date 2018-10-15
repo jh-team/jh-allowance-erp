@@ -74,6 +74,12 @@ public class JhUserController {
         }
     }
 
+    /**
+     * 添加用户
+     *
+     * @param jhUserInfo
+     * @return
+     */
     @RequestMapping(value = "/add")
     public String add(JhUserInfo jhUserInfo) {
         JhUserInfo u = jhUserService.selectByUsername(jhUserInfo.getUsername());
@@ -91,6 +97,38 @@ public class JhUserController {
         }
     }
 
+    /**
+     * 重置密码
+     *
+     * @param jhUserInfo
+     * @return
+     */
+    @RequestMapping(value = "/resetPassword")
+    public String resetPassword(JhUserInfo jhUserInfo) {
+        JhUserInfo u = jhUserService.selectById(jhUserInfo.getId());
+        if (null == u) {
+            log.info("用户信息为空");
+            return "error";
+        }
+
+        try {
+            u.setPassword("123456");
+            PasswordHelper passwordHelper = new PasswordHelper();
+            passwordHelper.encryptPassword(u);
+            jhUserService.updateNotNull(u);
+            return "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
+    }
+
+    /**
+     * 删除用户
+     *
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "/delete")
     public String delete(Integer id) {
         try {

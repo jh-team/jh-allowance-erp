@@ -22,7 +22,7 @@ public class JhUserServiceImpl extends BaseServiceImpl<JhUserInfo> implements Jh
 
     @Override
     public PageInfo<JhUserInfo> selectByPage(JhUserInfo jhUserInfo, int start, int length) {
-        int page = start/length+1;
+        int page = start / length + 1;
         Example example = new Example(JhUserInfo.class);
         Example.Criteria criteria = example.createCriteria();
         if (StringUtil.isNotEmpty(jhUserInfo.getUsername())) {
@@ -30,6 +30,7 @@ public class JhUserServiceImpl extends BaseServiceImpl<JhUserInfo> implements Jh
         }
         if (jhUserInfo.getId() != null) {
             criteria.andEqualTo("id", jhUserInfo.getId());
+
         }
         if (jhUserInfo.getEnable() != null) {
             criteria.andEqualTo("enable", jhUserInfo.getEnable());
@@ -44,23 +45,36 @@ public class JhUserServiceImpl extends BaseServiceImpl<JhUserInfo> implements Jh
     public JhUserInfo selectByUsername(String username) {
         Example example = new Example(JhUserInfo.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("username",username);
+        criteria.andEqualTo("username", username);
         List<JhUserInfo> jhUserInfoList = selectByExample(example);
-        if(jhUserInfoList.size()>0){
+        if (jhUserInfoList.size() > 0) {
             return jhUserInfoList.get(0);
         }
-            return null;
+        return null;
     }
 
     @Override
-    @Transactional(propagation= Propagation.REQUIRED,readOnly=false,rollbackFor={Exception.class})
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = {Exception.class})
     public void delUser(Integer userid) {
         //删除用户表
         mapper.deleteByPrimaryKey(userid);
         //删除用户角色表
         Example example = new Example(JhUserRoleInfo.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("userid",userid);
+        criteria.andEqualTo("userid", userid);
         jhUserRoleMapper.deleteByExample(example);
     }
+
+    @Override
+    public JhUserInfo selectById(Integer id) {
+        Example example = new Example(JhUserInfo.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("id", id);
+        List<JhUserInfo> jhUserInfoList = selectByExample(example);
+        if (jhUserInfoList.size() > 0) {
+            return jhUserInfoList.get(0);
+        }
+        return null;
+    }
+
 }

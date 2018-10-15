@@ -33,4 +33,11 @@ public interface JhUserService extends BaseService<JhUserInfo>{
      */
     void delUser(Integer userid);
 
+    /**
+     * 通过主键id查询用户信息
+     * @param id
+     * @return
+     */
+    JhUserInfo selectById(Integer id);
+
 }
