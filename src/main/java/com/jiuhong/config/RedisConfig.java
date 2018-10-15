@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -14,24 +16,27 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 
 /**
- * 缓存配置类
- * Created by za-wuxiaoyang on 2018/6/1.
+ * @Description redis相关配置
+ * @Author wuxiaoyang
+ * @Date 2018/10/15
  */
+@Configuration
+@EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
-
     @Value("${spring.redis.host}")
     private String host;
+
     @Value("${spring.redis.port}")
     private int port;
 
     //缓存管理器
-    //CacheManager cacheManager = new RedisCacheManager(redisTemplate);2.0删除了此构造器
     @Bean
-    public CacheManager cacheManager(RedisConnectionFactory factory) {
-        RedisCacheManager cacheManager = RedisCacheManager.create(factory);
+    public CacheManager cacheManager(@SuppressWarnings("rawtypes") RedisTemplate redisTemplate) {
+        RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
+        //设置缓存过期时间
+        cacheManager.setDefaultExpiration(10000);
         return cacheManager;
     }
-
 
     @Bean
     public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory factory) {
@@ -50,4 +55,5 @@ public class RedisConfig extends CachingConfigurerSupport {
         jackson2JsonRedisSerializer.setObjectMapper(om);
         template.setValueSerializer(jackson2JsonRedisSerializer);
     }
+
 }

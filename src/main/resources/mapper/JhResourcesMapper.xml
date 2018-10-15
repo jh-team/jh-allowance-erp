@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuhong.mapper.JhResourcesMapper">
+  <resultMap id="BaseResultMap" type="com.jiuhong.model.JhResourcesInfo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="resUrl" jdbcType="VARCHAR" property="resurl" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="parentId" jdbcType="INTEGER" property="parentid" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+  </resultMap>
+
+  <select id="queryAll" resultType="com.jiuhong.model.JhResourcesInfo">
+      	SELECT id,name,parentId,resUrl,type,sort
+		FROM jh_resources_info
+		ORDER BY sort ASC
+  </select>
+
+    <select id="loadUserResources" parameterType="java.util.HashMap" resultType="com.jiuhong.model.JhResourcesInfo">
+        SELECT re.id,re.name,re.parentId,re.resUrl
+        FROM jh_resources_info re LEFT JOIN jh_role_resources rr
+        ON re.id = rr.resourcesId
+        LEFT JOIN jh_user_role ur
+        ON rr.roleId =ur.roleId
+        WHERE ur.userId=#{userid}
+        <if test="type != null">
+            AND re.type= #{type}
+        </if>
+        GROUP BY re.id
+        ORDER BY re.sort ASC
+    </select>
+
+    <select id="queryResourcesListWithSelected" parameterType="int" resultType="com.jiuhong.model.JhResourcesInfo">
+        SELECT re.id,re.name,re.parentId,re.resUrl,re.type,
+		(CASE WHEN EXISTS(SELECT 1
+		FROM jh_role_resources rr WHERE rr.resourcesId=re.id AND rr.roleId=#{rid})
+		THEN 'true' ELSE 'false' END) AS checked
+		FROM jh_resources_info re
+		WHERE re.parentId !=0
+		ORDER BY re.sort ASC
+    </select>
+</mapper>
