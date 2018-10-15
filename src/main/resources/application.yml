@@ -6,7 +6,7 @@ spring:
     initialSize: 1
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/shiro
+    url: jdbc:mysql://95.169.19.239:3306/jiuhong
     maxActive: 20
     username: root
   thymeleaf:
