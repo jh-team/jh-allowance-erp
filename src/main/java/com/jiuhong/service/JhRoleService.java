@@ -6,6 +6,11 @@ import com.jiuhong.model.JhRoleInfo;
 
 import java.util.List;
 
+/**
+ * @Description 角色业务处理逻辑层
+ * @Author wuxiaoyang
+ * @Date 2018/10/15
+ */
 public interface JhRoleService extends BaseService<JhRoleInfo> {
 
     public List<JhRoleInfo> queryRoleListWithSelected(Integer uid);

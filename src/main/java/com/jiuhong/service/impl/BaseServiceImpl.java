@@ -30,9 +30,6 @@ import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
 
-/**
- * Created by liuzh on 2014/12/11.
- */
 public abstract class BaseServiceImpl<T> implements BaseService<T> {
 
     @Autowired

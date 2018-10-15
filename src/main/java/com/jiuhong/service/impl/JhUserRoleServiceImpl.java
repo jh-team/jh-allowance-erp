@@ -12,9 +12,6 @@ import tk.mybatis.mapper.entity.Example;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by yangqj on 2017/4/26.
- */
 @Service("userRoleService")
 public class JhUserRoleServiceImpl extends BaseServiceImpl<JhUserRoleInfo> implements JhUserRoleService {
     @Autowired

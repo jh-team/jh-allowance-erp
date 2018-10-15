@@ -14,9 +14,6 @@ import tk.mybatis.mapper.entity.Example;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * Created by yangqj on 2017/4/26.
- */
 @Service("roleResourcesService")
 public class JhRoleResourcesServiceImpl extends BaseServiceImpl<JhRoleResourcesInfo> implements JhRoleResourcesService {
     @Resource

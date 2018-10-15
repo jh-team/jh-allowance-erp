@@ -12,9 +12,6 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by yangqj on 2017/4/25.
- */
 @Service("resourcesService")
 public class JhResourcesServiceImpl extends BaseServiceImpl<JhResourcesInfo> implements JhResourcesService {
    @Resource
